@@ -1,6 +1,5 @@
 from sys import argv
 script, filepath = argv
-print filepath
 
 def file_into_wordlist(path):
     """unpack text file, and place into list of words.  
@@ -28,21 +27,30 @@ def create_dictionary(alist):
             bigram_dict[key].append(value)
     return bigram_dict 
 
-def string_generator(adict,start):
+def string_generator(adict, max_len):
     """Start with a bigram (one of the keys) from the
     dictionary, and add subsequent words to this string based 
     on random choice from the dictionary. returns a newly
     generated string."""
+    # create random start which is constructed from one of the tuple keys
     import random
-    list_of_next_words = adict.get(start)
-    return list_of_next_words
-
-
+    list_of_keys = list(adict)
+    start = random.choice(list_of_keys)
+    output_string = start[0] + " " + start[1]
+    while (start in adict) and (max_len > 0):
+        # identify the next word using dictionary
+        choices_list = adict[start]
+        next_word = random.choice(choices_list)
+        # string together tuple and next word
+        output_string = output_string + " " + next_word
+        start = (start[1],next_word)
+        max_len -= 1
+    return output_string
 
 
 def main():
-    bigrams = create_dictionary(file_into_wordlist(filepath))
-    start = ("could","you")
-    print string_generator(bigrams, start)
+    markov_chains = create_dictionary(file_into_wordlist(filepath))
+    print string_generator(markov_chains, 50)
+   
 
 main()
