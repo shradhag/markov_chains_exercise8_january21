@@ -6,10 +6,8 @@ def file_into_wordlist(path):
     each word is a string.  List is ordered.  
     Return word_list"""
     file_obj = open(path)
-    wordlist = []
-    for line in file_obj:
-        line = line.rstrip()
-        wordlist.extend(line.split(" "))
+    read_file = file_obj.read()
+    wordlist = read_file.split()
     return wordlist
 
 def create_dictionary(alist):
@@ -28,29 +26,29 @@ def create_dictionary(alist):
     return bigram_dict 
 
 def string_generator(adict, max_len):
-    """Start with a bigram (one of the keys) from the
+    """start with a bigram (one of the keys) from the
     dictionary, and add subsequent words to this string based 
     on random choice from the dictionary. returns a newly
     generated string."""
-    # create random start which is constructed from one of the tuple keys
+    # create random key which is constructed from one of the tuple keys
     import random
-    list_of_keys = list(adict)
-    start = random.choice(list_of_keys)
-    output_string = start[0] + " " + start[1]
-    while (start in adict) and (max_len > 0):
+    list_of_keys = adict.keys()
+    key = random.choice(list_of_keys)
+    output_string = key[0] + " " + key[1]
+    while (key in adict) and (max_len > 0):
         # identify the next word using dictionary
-        choices_list = adict[start]
+        choices_list = adict[key]
         next_word = random.choice(choices_list)
         # string together tuple and next word
         output_string = output_string + " " + next_word
-        start = (start[1],next_word)
+        key = (key[1],next_word)
         max_len -= 1
     return output_string
 
 
 def main():
     markov_chains = create_dictionary(file_into_wordlist(filepath))
-    print string_generator(markov_chains, 50)
-   
+    print string_generator(markov_chains, 100)
+#if 
 
 main()
