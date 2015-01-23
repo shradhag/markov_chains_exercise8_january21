@@ -1,5 +1,8 @@
-from sys import argv
-script, filepath = argv
+ # update to use with twitter api.  will import this exercise8.py as module
+ # and then call main(path) by passing the txt file to use
+
+# from sys import argv
+# script, filepath = argv
 
 def file_into_wordlist(path):
     """unpack text file, and place into list of words.  
@@ -60,8 +63,12 @@ def string_generator(adict, max_len):
     return output_string
 
 
-def main():
-    markov_chains = create_dictionary(file_into_wordlist(filepath),5)
-    print string_generator(markov_chains, 100)
+def main(filepath):
+    markov_chains = create_dictionary(file_into_wordlist(filepath),2)
+    #print markov_chains
+    output = "Testing Markov Chains: "+string_generator(markov_chains, 15)
+    print output
+    return output
 
-main()
+if __name__ == "__main__":
+    main("sonnet.txt")
