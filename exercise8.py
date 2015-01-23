@@ -49,7 +49,8 @@ def string_generator(adict, max_len):
     list_of_keys = adict.keys()
     key = random.choice(list_of_keys)
     output_string = " ".join(key)
-    while (key in adict) and (max_len > 0):
+    current_len = 0
+    while (key in adict) and (current_len < max_len):
         # identify the next word using dictionary
         values_list = adict[key]
         next_word = random.choice(values_list)
@@ -59,14 +60,14 @@ def string_generator(adict, max_len):
         new_key = old_key_as_list[1:]
         new_key.append(next_word)
         key = tuple(new_key)
-        max_len -= 1
+        current_len = len(output_string)
     return output_string
 
 
 def main(filepath):
     markov_chains = create_dictionary(file_into_wordlist(filepath),2)
     #print markov_chains
-    output = "Testing Markov Chains: "+string_generator(markov_chains, 15)
+    output = "Testing Markov Chains: "+string_generator(markov_chains, 110)
     print output
     return output
 
