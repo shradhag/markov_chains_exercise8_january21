@@ -4,6 +4,8 @@
 # from sys import argv
 # script, filepath = argv
 
+import random
+
 def file_into_wordlist(path):
     """unpack text file, and place into list of words.  
     each word is a string.  List is ordered.  
@@ -45,7 +47,6 @@ def string_generator(adict, max_len):
     on random choice from the dictionary. returns a newly
     generated string."""
     # create random key which is constructed from one of the tuple keys
-    import random
     list_of_keys = adict.keys()
     key = random.choice(list_of_keys)
     output_string = " ".join(key)
@@ -56,16 +57,13 @@ def string_generator(adict, max_len):
         next_word = random.choice(values_list)
         # string together tuple and next word
         output_string = output_string + " " + next_word
-        old_key_as_list = list(key)
-        new_key = old_key_as_list[1:]
-        new_key.append(next_word)
-        key = tuple(new_key)
+        key = key[1:] + (next_word,)
         current_len = len(output_string)
     return output_string
 
 
 def main(filepath):
-    markov_chains = create_dictionary(file_into_wordlist(filepath),2)
+    markov_chains = create_dictionary(file_into_wordlist(filepath), 2)
     #print markov_chains
     output = "Testing Markov Chains: "+string_generator(markov_chains, 110)
     print output
@@ -73,3 +71,4 @@ def main(filepath):
 
 if __name__ == "__main__":
     main("sonnet.txt")
+
